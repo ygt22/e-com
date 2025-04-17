@@ -1,0 +1,7 @@
+docker run -d -p 443:443 --name ecommerce-container -v /Users/ygt/Code/e-com/app:/usr/share/nginx/html e-commerce-template
+docker run -d -it --name flask-backend -p 5001:5001 -v /Users/ygt/Code/e-com/backend:/backend flask-backend
+docker build -t flask-backend .
+docker build -t e-commerce-template .
+
+
+docker-compose up -d

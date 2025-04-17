@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Coupon</title>
+</head>
+<body>
+    <h1>Apply Coupon</h1>
+    <form id="coupon-form">
+        <label for="coupon-code">Coupon Code:</label>
+        <input type="text" id="coupon-code" placeholder="Enter code">
+        <button type="submit">Apply</button>
+    </form>
+    <div id="response"></div>
+
+    <script>
+        document.getElementById('coupon-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const couponCode = document.getElementById('coupon-code').value.trim();
+            const responseDiv = document.getElementById('response');
+
+            try {
+                const response = await fetch('https://backend:5001/api/apply-coupon', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ couponCode }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP Error: ${response.status}`);
+                }
+
+                const result = await response.json();
+                if (result.success) {
+                    responseDiv.textContent = `Success! Discount: ${result.discount}%`;
+                } else {
+                    responseDiv.textContent = `Failed: ${result.message}`;
+                }
+            } catch (error) {
+                responseDiv.textContent = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>

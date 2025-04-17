@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  backend:
+    image: flask-backend
+    container_name: backend
+    build:
+      context: ./backend
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./backend:/backend
+    networks:
+      - app-network
+
+  frontend:
+    image: e-commerce-template
+    container_name: frontend
+    build:
+      context: ./frontend
+    ports:
+      - "443:443"
+    volumes:
+      - ./app:/usr/share/nginx/html
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
